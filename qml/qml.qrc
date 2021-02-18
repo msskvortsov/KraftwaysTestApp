@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TopButton.qml</file>
+        <file>ContentWindow.qml</file>
+        <file>icons/exit_icon.png</file>
+        <file>icons/settings_icon.png</file>
+        <file>CustomTabView.qml</file>
+        <file>images/map.jpg</file>
+        <file>images/image.jpg</file>
+    </qresource>
+</RCC>

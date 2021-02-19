@@ -64,7 +64,6 @@ Item {
         Tab {
             title: "Факториал"
             Rectangle {
-                z: 2
                 anchors.fill: parent
                 color: "gray"
                 Column {

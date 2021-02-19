@@ -2,14 +2,15 @@
 
 #include <QCursor>
 
-GlobalMouseTracker::GlobalMouseTracker()
+GlobalMouseTracker::GlobalMouseTracker(uint trackRateMsec)
+    : m_position(),
+      m_trackRate(trackRateMsec)
 {
 
 }
 
 void GlobalMouseTracker::run()
 {
-    // Updating cursor position 10 times per second
     while(true) {
         QPoint oldPosition = m_position;
         m_position = QCursor::pos();
@@ -23,7 +24,7 @@ void GlobalMouseTracker::run()
         if (oldPosition.y() != m_position.y())
             yChanged();
 
-        msleep(100);
+        msleep(m_trackRate);
     }
 }
 

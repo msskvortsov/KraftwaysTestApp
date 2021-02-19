@@ -9,6 +9,8 @@ FactorialCounter::FactorialCounter()
 
 void FactorialCounter::setValue(int val)
 {
+    if (isRunning())
+        return;
     m_value = val;
     start();
 }

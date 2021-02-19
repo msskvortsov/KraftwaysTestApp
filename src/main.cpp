@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
 
-    GlobalMouseTracker mouseGlobal;
+    GlobalMouseTracker mouseGlobal(100); // tracking mouse 10 times per second
     mouseGlobal.start();
     engine.rootContext()->setContextProperty("mouseGlobal", &mouseGlobal);
     QObject::connect(&engine, &QQmlEngine::quit, &mouseGlobal, [&mouseGlobal] () {

@@ -5,8 +5,8 @@
 #include <QPoint>
 
 
-// Tracks mouse wherever it goes. Standard Qt methods doesn't track it when it goes outside the app's window
-// or when app loses focus.
+// Tracks mouse wherever it goes.
+// Standard Qt methods doesn't track it when it goes outside app's window and when app loses focus.
 class GlobalMouseTracker : public QThread
 {
     Q_OBJECT
@@ -19,7 +19,7 @@ protected:
     void run() override;
 
 public:
-    GlobalMouseTracker();
+    GlobalMouseTracker(uint trackRateMsec);
 
 signals:
     void xChanged();
@@ -33,6 +33,7 @@ private:
 
 private:
     QPoint m_position;
+    uint m_trackRate;
 };
 
 #endif // GLOBALMOUSETRACKER_H

@@ -1,42 +1,24 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 
+import "styled_components"
+import "themes"
+
 Item {
-    Column {
-        id: tabNamesColumn
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            left: parent.left
-        }
-        Repeater {
-            model: view.count
-            delegate: Rectangle {
-                width: 30
-                height: 75
-                border.width: 1
-                Text {
-                    anchors.centerIn: parent
-                    text: view.getTab(index).title
-                    rotation: 270
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: view.currentIndex = index
-                }
-            }
-        }
+    SideTabViewTabs {
+        id: tabViewTabs
+        view: tabView
     }
 
     TabView {
-        id: view
+        id: tabView
         anchors {
             top: parent.top
             bottom: parent.bottom
             right: parent.right
-            left: tabNamesColumn.right
+            left: tabViewTabs.right
         }
         style: TabViewStyle{
             tab: Item {}
@@ -65,30 +47,30 @@ Item {
             title: "Факториал"
             Rectangle {
                 anchors.fill: parent
-                color: "gray"
+                color: "light blue"
                 Column {
                     anchors.centerIn: parent
                     spacing: 5
+
                     Row {
                         spacing: 5
                         TextField {
                             id: factorialTextEdit
                             width: 125
-                            height: 20
+                            height: 30
                             enabled: !factorialCounter.isRunning
                             placeholderText: qsTr("Enter int value")
                         }
-                        Button {
-                            z: 2
-                            height: 20
-                            width: 25
+                        StyledButton {
+                            height: 30
+                            width: 35
                             text: qsTr("Go!")
                             onClicked: factorialCounter.setValue(factorialTextEdit.text)
                         }
                     }
                     Text {
                         width: 150
-                        height: 20
+                        height: 30
                         text: factorialCounter.result
                     }
                 }

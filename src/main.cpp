@@ -1,5 +1,5 @@
 #include <QGuiApplication>
-#include <QQuickView>
+#include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QtDebug>
 #include <QScopedPointer>
@@ -13,16 +13,33 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    QQuickView view;
+    QQmlApplicationEngine engine;
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
 
-    QScopedPointer<GlobalMouseTracker> mouseGlobal(new GlobalMouseTracker());
-    mouseGlobal->start();
-    view.rootContext()->setContextProperty("mouseGlobal", mouseGlobal.get());
 
-    QScopedPointer<FactorialCounter> factorialCounter(new FactorialCounter());
-    view.rootContext()->setContextProperty("factorialCounter", factorialCounter.get());
+    GlobalMouseTracker mouseGlobal;
+    mouseGlobal.start();
+    engine.rootContext()->setContextProperty("mouseGlobal", &mouseGlobal);
+    QObject::connect(&engine, &QQmlEngine::quit, &mouseGlobal, [&mouseGlobal] () {
+        mouseGlobal.terminate();
+        mouseGlobal.wait();
+    }, Qt::DirectConnection);
 
-    view.setSource(QUrl(QStringLiteral("qrc:/main.qml")));
+    FactorialCounter factorialCounter;
+    engine.rootContext()->setContextProperty("factorialCounter", &factorialCounter);
+    QObject::connect(&engine, &QQmlEngine::quit, &factorialCounter, [&factorialCounter]() {
+        factorialCounter.terminate();
+        factorialCounter.wait();
+    }, Qt::DirectConnection);
+
+    engine.load(url);
+
+    QObject::connect(&engine, &QQmlEngine::quit, &app, &QGuiApplication::quit, Qt::DirectConnection);
 
     return app.exec();
 }

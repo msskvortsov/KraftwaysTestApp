@@ -16,6 +16,10 @@ Window {
     flags: Qt.FramelessWindowHint | Qt.WA_TranslucentBackground | Qt.WindowStaysOnTopHint
     color: "#00000000"
 
+    Component.onCompleted: {
+        contentWindow.showNormal()
+    }
+
     TopButton {
         id: topButton
         icon {

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
+import QtQml 2.0
 
 import "../themes"
 
@@ -23,8 +24,8 @@ Column {
         delegate: Button {
             id: repeaterDelegate
 
-            implicitWidth: 20
-            implicitHeight: 95
+            implicitWidth: 25
+            implicitHeight: 105
 
             text: view.getTab(index).title
 
@@ -39,6 +40,7 @@ Column {
                 antialiasing: true
 
                 property int radius: 3
+                property int viewCurrentIndex: root.view.currentIndex
 
                 property real tabAngle: Math.PI/8
 
@@ -78,9 +80,8 @@ Column {
                     ctx.restore();
                 }
 
-                Connections {
-                    target: view
-                    function onCurrentIndexChanged() { canvas.requestPaint() }
+                onViewCurrentIndexChanged: {
+                    requestPaint()
                 }
 
                 Component.onCompleted: requestPaint()

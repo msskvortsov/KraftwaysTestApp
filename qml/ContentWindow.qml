@@ -40,6 +40,7 @@ Window {
             left: parent.left
             bottom: closeButton.top
             bottomMargin: -5
+            leftMargin: 3
         }
         background: Item{}
 
@@ -76,6 +77,7 @@ Window {
         anchors {
             left: parent.left
             bottom: parent.bottom
+            leftMargin: 3
         }
 
         onClicked: root.hide()

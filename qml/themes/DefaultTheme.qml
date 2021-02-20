@@ -6,11 +6,11 @@ QtObject {
 
     property color mainBackground: "#2a5a7c"
     property color controlBackground: "#3a7baa"
-    property color disabledControlBackground: "#3a43aa"
-    property color activeControlBackground: "#38739e"
+    property color disabledControlBackground: "#38739e"
+    property color activeControlBackground: "#489edb"
     property color controlBorderColor: "#ffffff"
 
     property color textColor: "#ffffff"
-    property color disabledTextColor: "#c2c3c6"
+    property color disabledTextColor: "#666666"
 
 }

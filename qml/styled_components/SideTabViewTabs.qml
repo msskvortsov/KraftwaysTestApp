@@ -12,6 +12,8 @@ Column {
     property int tabWidth: 0
     property int tabHeight: 0
 
+    spacing: -5
+
 
     Repeater {
         id: tabsRepeater
@@ -22,7 +24,7 @@ Column {
             id: repeaterDelegate
 
             implicitWidth: 20
-            implicitHeight: 90
+            implicitHeight: 95
 
             text: view.getTab(index).title
 
@@ -38,17 +40,24 @@ Column {
 
                 property int radius: 3
 
+                property real tabAngle: Math.PI/8
+
                 onPaint: {
                     var ctx = getContext("2d");
-                    ctx.fillStyle = repeaterDelegate.down ? DefaultTheme.activeControlBackground : DefaultTheme.controlBackground
-                    ctx.strokeStyle = repeaterDelegate.down ? DefaultTheme.activeControlBackground : DefaultTheme.controlBackground
+                    ctx.fillStyle = index == view.currentIndex
+                            ? DefaultTheme.activeControlBackground
+                            : DefaultTheme.disabledControlBackground
+                    ctx.strokeStyle = DefaultTheme.mainBackground
+
                     ctx.lineWidth = 1
+
                     ctx.beginPath()
+
                     ctx.moveTo(width, height)
-                    ctx.lineTo(radius,height - (width/Math.cos(Math.PI/6) - radius))
-                    ctx.bezierCurveTo(radius, height - (width/Math.cos(Math.PI/6) - radius),
-                                      0, height - (width/Math.cos(Math.PI/6) - radius/2),
-                                      0, height - (width/Math.cos(Math.PI/6) + radius))
+                    ctx.lineTo(radius,height - (width/Math.cos(tabAngle) - radius))
+                    ctx.bezierCurveTo(radius, height - (width/Math.cos(tabAngle) - radius),
+                                      0, height - (width/Math.cos(tabAngle) - radius/2),
+                                      0, height - (width/Math.cos(tabAngle) + radius))
                     ctx.lineTo(0, radius)
                     ctx.arcTo(0, 0, radius, 0, radius)
                     ctx.lineTo(width, 0)
@@ -57,7 +66,7 @@ Column {
                     ctx.stroke()
 
                     ctx.save()
-                    ctx.font = repeaterDelegate.font
+                    ctx.font = "12px Arial, sans-serif"
                     ctx.fillStyle = repeaterDelegate.down ? DefaultTheme.disabledTextColor : DefaultTheme.textColor
                     ctx.textAlign = "left"
 
@@ -65,8 +74,13 @@ Column {
                     var textWidthBaseline = (width + repeaterDelegate.font.pixelSize)/2
                     ctx.translate(textWidthBaseline, height)
                     ctx.rotate(-Math.PI/2)
-                    ctx.fillText(repeaterDelegate.text, (width/Math.cos(Math.PI/6))/2 + (height - textWidth)/2, width/2 - repeaterDelegate.font.pixelSize)
+                    ctx.fillText(repeaterDelegate.text, (width/Math.cos(tabAngle))/2 + (height - textWidth)/2, width/2 - repeaterDelegate.font.pixelSize)
                     ctx.restore();
+                }
+
+                Connections {
+                    target: view
+                    function onCurrentIndexChanged() { canvas.requestPaint() }
                 }
 
                 Component.onCompleted: requestPaint()

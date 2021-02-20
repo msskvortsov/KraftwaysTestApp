@@ -6,10 +6,11 @@ import "themes"
 
 Window {
     id: root
-    x: 0
+    x: (Screen.width - width)/2
     y: 0
     width: Screen.width/2
-    height: Screen.height/2
+    height: 0
+    property int defaultHeight: Screen.height/2
 
     flags: Qt.FramelessWindowHint
     color: DefaultTheme.mainBackground
@@ -19,6 +20,7 @@ Window {
         anchors.margins: 5
         anchors.leftMargin: 10
         z: 2
+        visible: !heightAnimation.running
     }
 
     Button {
@@ -43,6 +45,16 @@ Window {
 
         onClicked: {
             console.debug("There is no app settings yet")
+            settingsRotationAnimation.start()
+        }
+
+        PropertyAnimation {
+            id: settingsRotationAnimation
+            target: settingsButton
+            property: "rotation"
+            from: 0
+            to: 360
+            duration: 300
         }
     }
 
@@ -58,6 +70,7 @@ Window {
             width: closeButton.width
             color: closeButton.down ? DefaultTheme.disabledTextColor : DefaultTheme.textColor
         }
+        hoverEnabled: true
 
         background: Item{}
         anchors {
@@ -65,29 +78,63 @@ Window {
             bottom: parent.bottom
         }
 
-        onClicked: Qt.quit()
+        onClicked: root.hide()
+
+        onHoveredChanged: {
+            if (hovered) {
+                rotationAnimation.from = 0
+                rotationAnimation.to = 90
+                rotationAnimation.start()
+            } else {
+                rotationAnimation.from = 90
+                rotationAnimation.to = 0
+                rotationAnimation.start()
+            }
+        }
+
+        PropertyAnimation {
+            id: rotationAnimation
+            target: closeButton
+            property: "rotation"
+            duration: 150
+        }
     }
 
     MouseArea {
-           id: iMouseArea
-           propagateComposedEvents: true
-           property int prevX: 0
-           property int prevY: 0
-           anchors.fill: parent
+        propagateComposedEvents: true
+        property int prevX: 0
+        property int prevY: 0
+        anchors.fill: parent
 
-           onPressed: {
-               prevX = mouse.x;
-               prevY = mouse.y
-           }
+        onPressed: {
+            prevX = mouse.x;
+            prevY = mouse.y
+        }
 
-           onPositionChanged:{
-               var deltaX = mouse.x - prevX;
-               root.x += deltaX;
-               prevX = mouse.x - deltaX;
+        onPositionChanged:{
+            var deltaX = mouse.x - prevX
+            prevX = mouse.x - deltaX
 
-               var deltaY = mouse.y - prevY
-               root.y += deltaY;
-               prevY = mouse.y - deltaY;
-           }
-       }
+            var deltaY = mouse.y - prevY
+            prevY = mouse.y - deltaY
+
+            root.setGeometry(root.x + deltaX, root.y + deltaY, root.width, root.height)
+        }
+    }
+
+    onVisibleChanged: {
+        if (visible)
+            height = defaultHeight
+        else
+            height = 0
+    }
+
+    Behavior on height {
+        PropertyAnimation {
+            id: heightAnimation
+            duration: 300
+            property: "height"
+            easing.type: Easing.OutCirc
+        }
+    }
 }

@@ -59,7 +59,8 @@ Item {
                             width: 125
                             height: 30
                             enabled: !factorialCounter.isRunning
-                            placeholderText: qsTr("Enter int value")
+                            validator: IntValidator { bottom: 0; top: 25 }
+                            placeholderText: qsTr("Number from 0 to 25")
                         }
                         StyledButton {
                             height: 30

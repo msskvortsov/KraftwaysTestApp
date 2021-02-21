@@ -2,7 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>TopButton.qml</file>
-        <file>ContentWindow.qml</file>
+        <file>ContentItem.qml</file>
         <file>icons/exit_icon.png</file>
         <file>icons/settings_icon.png</file>
         <file>CustomTabView.qml</file>
@@ -13,5 +13,6 @@
         <file>styled_components/StyledButton.qml</file>
         <file>styled_components/SideTabViewTabs.qml</file>
         <file>icons/eye.png</file>
+        <file>icons/app_icon.ico</file>
     </qresource>
 </RCC>

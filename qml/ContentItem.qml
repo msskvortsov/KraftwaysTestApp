@@ -4,16 +4,10 @@ import QtQuick.Controls 2.0
 
 import "themes"
 
-Window {
+Item {
     id: root
-    x: (Screen.width - width)/2
-    y: 0
-    width: Screen.width/2
-    height: 0
-    property int defaultHeight: Screen.height/2
 
-    flags: Qt.FramelessWindowHint
-    color: DefaultTheme.mainBackground
+    signal hide()
 
     CustomTabView {
         anchors.fill: parent
@@ -40,7 +34,6 @@ Window {
             left: parent.left
             bottom: closeButton.top
             bottomMargin: -5
-            leftMargin: 3
         }
         background: Item{}
 
@@ -77,7 +70,6 @@ Window {
         anchors {
             left: parent.left
             bottom: parent.bottom
-            leftMargin: 3
         }
 
         onClicked: root.hide()
@@ -99,44 +91,6 @@ Window {
             target: closeButton
             property: "rotation"
             duration: 150
-        }
-    }
-
-    MouseArea {
-        propagateComposedEvents: true
-        property int prevX: 0
-        property int prevY: 0
-        anchors.fill: parent
-
-        onPressed: {
-            prevX = mouse.x;
-            prevY = mouse.y
-        }
-
-        onPositionChanged:{
-            var deltaX = mouse.x - prevX
-            prevX = mouse.x - deltaX
-
-            var deltaY = mouse.y - prevY
-            prevY = mouse.y - deltaY
-
-            root.setGeometry(root.x + deltaX, root.y + deltaY, root.width, root.height)
-        }
-    }
-
-    onVisibleChanged: {
-        if (visible)
-            height = defaultHeight
-        else
-            height = 0
-    }
-
-    Behavior on height {
-        PropertyAnimation {
-            id: heightAnimation
-            duration: 300
-            property: "height"
-            easing.type: Easing.OutCirc
         }
     }
 }

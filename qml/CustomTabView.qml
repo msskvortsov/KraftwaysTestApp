@@ -61,7 +61,10 @@ Item {
                             enabled: !factorialCounter.isRunning
                             validator: IntValidator { bottom: 0; top: 25 }
                             placeholderText: qsTr("Number from 0 to 25")
-                            font.pixelSize: 12
+                            font {
+                                pixelSize: DefaultTheme.fontPixelSize
+                                family: DefaultTheme.fontFamily
+                            }
                         }
                         StyledButton {
                             height: 30

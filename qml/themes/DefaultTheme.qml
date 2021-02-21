@@ -4,13 +4,21 @@ import QtQuick 2.0
 QtObject {
     id: defaultTheme
 
-    property color mainBackground: "#2a5a7c"
-    property color controlBackground: "#3a7baa"
-    property color disabledControlBackground: "#38739e"
-    property color activeControlBackground: "#489edb"
-    property color controlBorderColor: "#ffffff"
+    property color backgroundApp: "#2a5a7c"
+    property color backgroundComponent: "#3a7baa"
+    property color backgroundComponentDisabled: "#38739e"
+    property color backgroundComponentActive: "#489edb"
+
+    property color shadowColor: "#666666"
+    property real shadowSpread: 0.4
 
     property color textColor: "#ffffff"
-    property color disabledTextColor: "#666666"
+    property color textColorDisabled: "#666666"
+    property string fontFamily: "Arial, sans-serif"
+    property int fontPixelSize: 12
+
+    property color borderColor: "#ffffff"
+    property color borderColorDisabled: "#666666"
+    property int borderWidth: 1
 
 }

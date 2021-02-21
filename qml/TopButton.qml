@@ -3,7 +3,7 @@ import QtQuick.Window 2.11
 import QtQuick.Controls 2.0
 
 import "themes"
-// This is a button which appears at the top of the screen to open the minimized app
+// This is a button which appears at the top of the screen to open minimized/hidden app
 
 Window {
     id: root
@@ -13,7 +13,7 @@ Window {
     y: 0
     visible: true
     flags: Qt.FramelessWindowHint | Qt.WA_TranslucentBackground | Qt.WindowStaysOnTopHint
-    color: "#00000000"
+    color: "#00000000"  // transparent
 
     property alias implicitWidth: button.implicitWidth
     property alias implicitHeight: button.implicitHeight
@@ -44,7 +44,7 @@ Window {
 
         background: Rectangle {
             anchors.fill: parent
-            color: button.down ? DefaultTheme.activeControlBackground : DefaultTheme.controlBackground
+            color: button.down ? DefaultTheme.backgroundComponentActive : DefaultTheme.backgroundComponent
             radius: 5
 
             // Можно вместо использования двух квадратиков, закрывающих скругленные углы сверху,

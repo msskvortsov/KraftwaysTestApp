@@ -15,7 +15,7 @@ Window {
     property int defaultHeight: Screen.height/2
 
     flags: Qt.Window | Qt.FramelessWindowHint | Qt.WindowMinimizeButtonHint
-    color: DefaultTheme.mainBackground
+    color: DefaultTheme.backgroundApp
 
     onVisibleChanged: {
         if (visible) {
@@ -32,10 +32,6 @@ Window {
     Action {
         id: showMainWindowAction
         onTriggered: root.showNormal()
-    }
-
-    Component.onCompleted: {
-        contentWindow.showNormal()
     }
 
     TopButton {

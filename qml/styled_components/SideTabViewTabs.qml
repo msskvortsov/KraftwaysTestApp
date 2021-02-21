@@ -7,14 +7,12 @@ import "../themes"
 Column {
     id: root
 
-    property var align: Qt.AlignTop
     property var view
 
     property int tabWidth: 0
     property int tabHeight: 0
 
     spacing: -5
-
 
     Repeater {
         id: tabsRepeater
@@ -47,43 +45,48 @@ Column {
                 onPaint: {
                     var ctx = getContext("2d");
                     ctx.fillStyle = index == view.currentIndex
-                            ? DefaultTheme.activeControlBackground
-                            : DefaultTheme.disabledControlBackground
-                    ctx.strokeStyle = DefaultTheme.mainBackground
+                            ? DefaultTheme.backgroundComponentActive
+                            : DefaultTheme.backgroundComponentDisabled
+                    ctx.strokeStyle = DefaultTheme.backgroundApp
 
-                    ctx.lineWidth = 1
+                    ctx.lineWidth = DefaultTheme.borderWidth
 
                     ctx.beginPath()
-
                     ctx.moveTo(width, height)
+                    // Draw sloped line
                     ctx.lineTo(radius,height - (width/Math.cos(tabAngle) - radius))
+                    // Smoothly go to the vertical line using bezier curve
                     ctx.bezierCurveTo(radius, height - (width/Math.cos(tabAngle) - radius),
                                       0, height - (width/Math.cos(tabAngle) - radius/2),
                                       0, height - (width/Math.cos(tabAngle) + radius))
                     ctx.lineTo(0, radius)
+                    // Draw rounded corner
                     ctx.arcTo(0, 0, radius, 0, radius)
+                    // Finishing with straight lines
                     ctx.lineTo(width, 0)
                     ctx.lineTo(width, height)
                     ctx.fill()
                     ctx.stroke()
 
+                    // Setting text params
                     ctx.save()
-                    ctx.font = "12px Arial, sans-serif"
-                    ctx.fillStyle = repeaterDelegate.down ? DefaultTheme.disabledTextColor : DefaultTheme.textColor
+                    ctx.font = DefaultTheme.fontPixelSize + "px " + DefaultTheme.fontFamily
+                    ctx.fillStyle = repeaterDelegate.down ? DefaultTheme.textColorDisabled : DefaultTheme.textColor
                     ctx.textAlign = "left"
 
                     var textWidth = ctx.measureText(repeaterDelegate.text).width
-                    var textWidthBaseline = (width + repeaterDelegate.font.pixelSize)/2
-                    ctx.translate(textWidthBaseline, height)
+                    var textBaseline = (width + repeaterDelegate.font.pixelSize)/2
+
+                    // Drawing text rotated by -90 dergees
+                    ctx.translate(textBaseline, height)
                     ctx.rotate(-Math.PI/2)
-                    ctx.fillText(repeaterDelegate.text, (width/Math.cos(tabAngle))/2 + (height - textWidth)/2, width/2 - repeaterDelegate.font.pixelSize)
-                    ctx.restore();
+                    ctx.fillText(repeaterDelegate.text,
+                                 (width/Math.cos(tabAngle))/2 + (height - textWidth)/2,
+                                 - width/2 + repeaterDelegate.font.pixelSize)
+                    ctx.restore()
                 }
 
-                onViewCurrentIndexChanged: {
-                    requestPaint()
-                }
-
+                onViewCurrentIndexChanged: requestPaint()
                 Component.onCompleted: requestPaint()
             }
 

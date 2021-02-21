@@ -27,7 +27,7 @@ Item {
             source: Qt.resolvedUrl("qrc:/icons/settings_icon.png")
             height: closeButton.height
             width: closeButton.width
-            color: settingsButton.down ? DefaultTheme.disabledTextColor : DefaultTheme.textColor
+            color: settingsButton.down ? DefaultTheme.textColorDisabled : DefaultTheme.textColor
         }
 
         anchors {
@@ -62,7 +62,7 @@ Item {
             source: Qt.resolvedUrl("qrc:/icons/exit_icon.png")
             height: closeButton.height
             width: closeButton.width
-            color: closeButton.down ? DefaultTheme.disabledTextColor : DefaultTheme.textColor
+            color: closeButton.down ? DefaultTheme.textColorDisabled : DefaultTheme.textColor
         }
         hoverEnabled: true
 

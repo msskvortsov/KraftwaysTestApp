@@ -16,7 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         src/factorialcounter.cpp \
         src/globalmousetracker.cpp \
-        src/main.cpp
+        src/main.cpp \
+        src/themeprovider.cpp
 
 RESOURCES += qml/qml.qrc
 
@@ -35,4 +36,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     src/factorialcounter.h \
-    src/globalmousetracker.h
+    src/globalmousetracker.h \
+    src/themeprovider.h

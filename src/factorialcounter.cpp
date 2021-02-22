@@ -23,7 +23,9 @@ long long FactorialCounter::result() const
 void FactorialCounter::run()
 {
     m_result = 1;
-    for (int i = 1; i <= m_value; i++)
+    for (int i = 1; i <= m_value; i++) {
          m_result *= i;
+         msleep(100);
+    }
     emit resultChanged();
 }

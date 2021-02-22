@@ -13,14 +13,20 @@ Window {
     y: 0
     visible: true
     flags: Qt.FramelessWindowHint | Qt.WA_TranslucentBackground | Qt.WindowStaysOnTopHint
-    color: "#00000000"  // transparent
+    color: Theme.transparent
 
     property alias implicitWidth: button.implicitWidth
     property alias implicitHeight: button.implicitHeight
     property alias icon: button.icon
     property alias display: button.display
-    property alias state: button.state
+    property alias down: button.down
+
     signal clicked()
+    signal hide()
+    signal show()
+
+    onHide: button.state = "Hidden"
+    onShow: button.state = "Inactive"
 
     Button {
         id: button
@@ -32,7 +38,8 @@ Window {
                     && position.y <= showUpRect.height;
         }
 
-        property var showUpRect: Qt.rect(2*Screen.width/5, 0, 3*Screen.width/5, 150)
+        // Rectangle at the center of the screen. Size is 20% of width and 15% of height
+        property var showUpRect: Qt.rect(2*Screen.width/5, 0, 3*Screen.width/5, 0.15*Screen.height)
         property var globalMousePos: mouseGlobal.pos
         property bool cursorInsideShowUpRect: false
         property bool allowShowUp: true
@@ -44,7 +51,7 @@ Window {
 
         background: Rectangle {
             anchors.fill: parent
-            color: button.down ? DefaultTheme.backgroundComponentActive : DefaultTheme.backgroundComponent
+            color: button.down ? Theme.button.background.colorPressed : Theme.button.background.color
             radius: 5
 
             // Можно вместо использования двух квадратиков, закрывающих скругленные углы сверху,

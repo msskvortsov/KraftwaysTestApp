@@ -14,11 +14,11 @@ Button {
 
     background: Rectangle {
         anchors.fill: parent
-        color: root.down ? DefaultTheme.backgroundComponentActive : DefaultTheme.backgroundComponent
+        color: root.down ? Theme.button.background.colorPressed : Theme.button.background.color
         radius: 3
         border {
-            color: root.down ? DefaultTheme.borderColorDisabled : DefaultTheme.borderColor
-            width: DefaultTheme.borderWidth
+            color: root.down ? Theme.button.boreder.colorPressed : Theme.button.boreder.color
+            width: Theme.button.boreder.width
         }
 
         layer.enabled: !root.down && root.shadowEnabled
@@ -26,8 +26,8 @@ Button {
             transparentBorder: true
             verticalOffset: root.down ? 0 : 1
             horizontalOffset: root.down ? 0 : 1
-            color: DefaultTheme.shadowColor
-            spread: DefaultTheme.shadowSpread
+            color: Theme.shadow.color
+            spread: Theme.shadow.spread
         }
 
     }
@@ -35,7 +35,7 @@ Button {
     contentItem: Text {
         text: root.text
         font: root.font
-        color: root.down ? DefaultTheme.textColorDisabled : DefaultTheme.textColor
+        color: root.down ? Theme.button.text.colorPressed : Theme.button.text.color
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
     }

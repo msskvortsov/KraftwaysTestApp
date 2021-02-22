@@ -8,11 +8,12 @@
         <file>CustomTabView.qml</file>
         <file>images/map.jpg</file>
         <file>images/image.jpg</file>
-        <file>themes/DefaultTheme.qml</file>
-        <file>themes/qmldir</file>
         <file>styled_components/StyledButton.qml</file>
         <file>styled_components/SideTabViewTabs.qml</file>
         <file>icons/eye.png</file>
         <file>icons/app_icon.ico</file>
+        <file>StyleEditor.qml</file>
+        <file>themes/qmldir</file>
+        <file>themes/Theme.qml</file>
     </qresource>
 </RCC>

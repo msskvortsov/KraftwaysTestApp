@@ -56,14 +56,14 @@ Item {
                         spacing: 5
                         TextField {
                             id: factorialTextEdit
-                            width: 125
+                            width: 135
                             height: 30
                             enabled: !factorialCounter.isRunning
                             validator: IntValidator { bottom: 0; top: 25 }
                             placeholderText: qsTr("Number from 0 to 25")
                             font {
-                                pixelSize: DefaultTheme.fontPixelSize
-                                family: DefaultTheme.fontFamily
+                                pixelSize: Theme.font.pixelSize
+                                family: Theme.font.family
                             }
                         }
                         StyledButton {
@@ -73,11 +73,24 @@ Item {
                             onClicked: factorialCounter.setValue(factorialTextEdit.text)
                         }
                     }
-                    Text {
+
+                    Item {
                         width: 150
-                        height: 30
-                        text: factorialCounter.result
-                        font.pixelSize: 12
+                        height: 15
+                        // text with factorial result
+                        Text {
+                            anchors.fill: parent
+                            text: factorialCounter.result
+                            font.pixelSize: 12
+                            visible: !factorialCounter.isRunning
+                        }
+                        // factorial counter busy indicator
+                        BusyIndicator {
+                            visible: factorialCounter.isRunning
+                            anchors.left: parent.left
+                            height: parent.height
+                            width: height
+                        }
                     }
                 }
             }

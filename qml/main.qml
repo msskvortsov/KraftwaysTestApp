@@ -10,55 +10,22 @@ Window {
 
     x: (Screen.width - width)/2
     y: 0
-    width: Screen.width/2
-    height: 0
-    property int defaultHeight: Screen.height/2
+    width: defaultWidth
+    height: visible ? defaultHeight : 0
+    readonly property int defaultWidth: Screen.width/2
+    readonly property int defaultHeight: Screen.height/2
 
     flags: Qt.Window | Qt.FramelessWindowHint | Qt.WindowMinimizeButtonHint
-    color: DefaultTheme.backgroundApp
+    color: Theme.window.background
 
     onVisibleChanged: {
-        if (visible) {
-            height = defaultHeight
-            topButton.state = "Hidden"
-        } else {
-            height = 0
-            topButton.state = "Inactive"
-        }
+        if (visible)
+            topButton.hide()
+        else
+            topButton.show()
     }
 
     Component.onCompleted: showMainWindowAction.trigger()
-
-    Action {
-        id: showMainWindowAction
-        onTriggered: root.showNormal()
-    }
-
-    TopButton {
-        id: topButton
-        icon {
-            height: topButton.implicitHeight
-            source: Qt.resolvedUrl("qrc:/icons/eye.png")
-            color: DefaultTheme.textColor
-        }
-
-        display: AbstractButton.IconOnly
-
-        implicitWidth: 75
-        implicitHeight: 40
-
-        state: "Inactive"
-
-        onClicked: showMainWindowAction.trigger()
-    }
-
-    ContentItem {
-        id: contentItem
-        anchors.fill: parent
-        z: 2
-
-        onHide: root.hide()
-    }
 
     Behavior on height {
         PropertyAnimation {
@@ -69,10 +36,39 @@ Window {
         }
     }
 
+    Action {
+        id: showMainWindowAction
+        onTriggered: root.showNormal()
+    }
+
+    TopButton {
+        id: topButton
+        icon {
+            height: topButton.implicitHeight
+            source: Theme.icons.topButton
+            color: topButton.down ? Theme.button.icon.colorPressed : Theme.button.icon.color
+        }
+
+        display: AbstractButton.IconOnly
+
+        implicitWidth: 75
+        implicitHeight: 40
+
+        onClicked: showMainWindowAction.trigger()
+    }
+
+    ContentItem {
+        id: contentItem
+        anchors.fill: parent
+        z: Theme.layers.basic
+
+        onHide: root.hide()
+    }
+
     SystemTrayIcon {
         id: trayIcon
         visible: true
-        icon.source: "qrc:/icons/app_icon.ico"
+        icon.source: Theme.icons.trayIcon
 
         menu: Menu {
             MenuItem {
@@ -100,7 +96,7 @@ Window {
         property int prevX: 0
         property int prevY: 0
         anchors.fill: parent
-        z: 0
+        z: Theme.layers.zero
 
         onPressed: {
             prevX = mouse.x;

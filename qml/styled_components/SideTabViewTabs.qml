@@ -45,19 +45,19 @@ Column {
                 onPaint: {
                     var ctx = getContext("2d");
                     ctx.fillStyle = index == view.currentIndex
-                            ? DefaultTheme.backgroundComponentActive
-                            : DefaultTheme.backgroundComponentDisabled
-                    ctx.strokeStyle = DefaultTheme.backgroundApp
+                            ? Theme.tabViewTab.background.active
+                            : Theme.tabViewTab.background.color
+                    ctx.strokeStyle = Theme.tabViewTab.border.color
 
-                    ctx.lineWidth = DefaultTheme.borderWidth
+                    ctx.lineWidth = Theme.tabViewTab.border.width
 
                     ctx.beginPath()
                     ctx.moveTo(width, height)
                     // Draw sloped line
-                    ctx.lineTo(radius,height - (width/Math.cos(tabAngle) - radius))
+                    ctx.lineTo(radius, height - (width/Math.cos(tabAngle) - radius))
                     // Smoothly go to the vertical line using bezier curve
                     ctx.bezierCurveTo(radius, height - (width/Math.cos(tabAngle) - radius),
-                                      0, height - (width/Math.cos(tabAngle) - radius/2),
+                                      0, height - (width/Math.cos(tabAngle)),
                                       0, height - (width/Math.cos(tabAngle) + radius))
                     ctx.lineTo(0, radius)
                     // Draw rounded corner
@@ -70,9 +70,11 @@ Column {
 
                     // Setting text params
                     ctx.save()
-                    ctx.font = DefaultTheme.fontPixelSize + "px " + DefaultTheme.fontFamily
-                    ctx.fillStyle = repeaterDelegate.down ? DefaultTheme.textColorDisabled : DefaultTheme.textColor
-                    ctx.textAlign = "left"
+                    ctx.font = Theme.tabViewTab.font.pixelSize + "px " + Theme.tabViewTab.font.family
+                    ctx.fillStyle = repeaterDelegate.down
+                            ? Theme.tabViewTab.text.colorPressed
+                            : Theme.tabViewTab.text.color
+                    ctx.textAlign = Theme.tabViewTab.text.align
 
                     var textWidth = ctx.measureText(repeaterDelegate.text).width
                     var textBaseline = (width + repeaterDelegate.font.pixelSize)/2

@@ -12,8 +12,6 @@ Item {
     CustomTabView {
         anchors.fill: parent
         anchors.margins: 5
-        anchors.leftMargin: 10
-        z: 2
         visible: !heightAnimation.running
     }
 
@@ -21,29 +19,28 @@ Item {
         id: settingsButton
         width: 30
         height: 30
-        z: 2
         display: AbstractButton.IconOnly
+
         icon {
-            source: Qt.resolvedUrl("qrc:/icons/settings_icon.png")
-            height: closeButton.height
-            width: closeButton.width
-            color: settingsButton.down ? DefaultTheme.textColorDisabled : DefaultTheme.textColor
+            source: Theme.icons.settingsIcon
+            height: settingsButton.height
+            color: settingsButton.down ? Theme.button.icon.colorPressed : Theme.button.icon.color
         }
 
         anchors {
             left: parent.left
             bottom: closeButton.top
-            bottomMargin: -5
         }
+
         background: Item{}
 
         onClicked: {
             console.debug("There is no app settings yet")
-            settingsRotationAnimation.start()
+            settingsButtonRotationAnimation.start()
         }
 
         PropertyAnimation {
-            id: settingsRotationAnimation
+            id: settingsButtonRotationAnimation
             target: settingsButton
             property: "rotation"
             from: 0
@@ -56,13 +53,11 @@ Item {
         id: closeButton
         width: 30
         height: 30
-        z: 2
         display: AbstractButton.IconOnly
         icon {
-            source: Qt.resolvedUrl("qrc:/icons/exit_icon.png")
+            source: Theme.icons.closeIcon
             height: closeButton.height
-            width: closeButton.width
-            color: closeButton.down ? DefaultTheme.textColorDisabled : DefaultTheme.textColor
+            color:  settingsButton.down ? Theme.button.icon.colorPressed : Theme.button.icon.color
         }
         hoverEnabled: true
 
@@ -76,18 +71,18 @@ Item {
 
         onHoveredChanged: {
             if (hovered) {
-                rotationAnimation.from = 0
-                rotationAnimation.to = 90
-                rotationAnimation.start()
+                closeButtonRotationAnimation.from = 0
+                closeButtonRotationAnimation.to = 90
+                closeButtonRotationAnimation.start()
             } else {
-                rotationAnimation.from = 90
-                rotationAnimation.to = 0
-                rotationAnimation.start()
+                closeButtonRotationAnimation.from = 90
+                closeButtonRotationAnimation.to = 0
+                closeButtonRotationAnimation.start()
             }
         }
 
         PropertyAnimation {
-            id: rotationAnimation
+            id: closeButtonRotationAnimation
             target: closeButton
             property: "rotation"
             duration: 150

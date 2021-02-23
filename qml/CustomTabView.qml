@@ -62,8 +62,8 @@ Item {
                             validator: IntValidator { bottom: 0; top: 25 }
                             placeholderText: qsTr("Number from 0 to 25")
                             font {
-                                pixelSize: Theme.font.pixelSize
-                                family: Theme.font.family
+                                pixelSize: Theme.fontPixelSize
+                                family: Theme.fontFamily
                             }
                         }
                         StyledButton {

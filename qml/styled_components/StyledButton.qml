@@ -17,8 +17,8 @@ Button {
         color: root.down ? Theme.button.background.colorPressed : Theme.button.background.color
         radius: 3
         border {
-            color: root.down ? Theme.button.boreder.colorPressed : Theme.button.boreder.color
-            width: Theme.button.boreder.width
+            color: root.down ? Theme.button.border.colorPressed : Theme.button.border.color
+            width: Theme.button.border.width
         }
 
         layer.enabled: !root.down && root.shadowEnabled
@@ -26,8 +26,8 @@ Button {
             transparentBorder: true
             verticalOffset: root.down ? 0 : 1
             horizontalOffset: root.down ? 0 : 1
-            color: Theme.shadow.color
-            spread: Theme.shadow.spread
+            color: Theme.button.shadow.color
+            spread: Theme.button.shadow.spread
         }
 
     }
